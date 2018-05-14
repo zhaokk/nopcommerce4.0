@@ -162,6 +162,19 @@ namespace Nop.Core.Caching
         {
             if (data != null)
             {
+                // add this replace there to fix the load balancer visit the website using private address issue
+                if (data is string)
+                {
+                    string test = (string)data;
+                    Uri uriResult;
+                    bool result = Uri.TryCreate(test, UriKind.Absolute, out uriResult)
+                        && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+                    if (result)
+                    {
+                        var relative = uriResult.PathAndQuery;
+                        data = relative;
+                    }
+                }
                 _cache.Set(AddKey(key), data, GetMemoryCacheEntryOptions(cacheTime));
             }
         }

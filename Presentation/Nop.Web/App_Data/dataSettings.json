@@ -1,0 +1,5 @@
+{
+  "DataProvider": "sqlserver",
+  "DataConnectionString": "Data Source=restoredb.cgogknkidf3g.ap-southeast-2.rds.amazonaws.com;Initial Catalog=uniphone;Integrated Security=False;Persist Security Info=False;User ID=uniphone;Password=uniphone888",
+  "RawDataSettings": {}
+}
