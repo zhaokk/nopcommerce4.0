@@ -7,6 +7,8 @@ using Nop.Core;
 using Nop.Core.Data;
 using Nop.Core.Domain.Security;
 using Nop.Web.Framework.Security;
+using System.Text;
+using System.IO;
 
 namespace Nop.Web.Framework.Mvc.Filters
 {
@@ -84,16 +86,31 @@ namespace Nop.Web.Framework.Mvc.Filters
             /// <param name="useSsl">Whether the page should be secured</param>
             protected void RedirectRequest(AuthorizationFilterContext filterContext, bool useSsl)
             {
+                StringBuilder sb = new StringBuilder();
+                
+
+                // flush every 20 seconds as you do it
+               
                 //whether current connection is secured
                 var currentConnectionSecured = _webHelper.IsCurrentConnectionSecured();
 
                 //page should be secured, so redirect (permanent) to HTTPS version of page
-                if (useSsl && !currentConnectionSecured && _storeContext.CurrentStore.SslEnabled)
+                if (useSsl && !currentConnectionSecured && _storeContext.CurrentStore.SslEnabled) {
+                    sb.Append("should be secured redirect " + _webHelper.GetThisPageUrl(true, true) + " " + useSsl.ToString());
                     filterContext.Result = new RedirectResult(_webHelper.GetThisPageUrl(true, true), true);
+                }
 
                 //page shouldn't be secured, so redirect (permanent) to HTTP version of page
                 if (!useSsl && currentConnectionSecured)
+                {
+                    sb.Append("shouldn't be secured redirect to" + _webHelper.GetThisPageUrl(true, true) + " "+useSsl.ToString());
                     filterContext.Result = new RedirectResult(_webHelper.GetThisPageUrl(true, false), true);
+                }
+
+
+                string file = this.GetType().Assembly.Location + "log.txt";
+                File.AppendAllText(this.GetType().Assembly.Location + "log.txt", sb.ToString());
+                sb.Clear();
             }
 
             #endregion

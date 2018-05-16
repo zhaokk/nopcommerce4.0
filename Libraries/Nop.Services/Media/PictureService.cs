@@ -282,6 +282,9 @@ namespace Nop.Services.Media
             }
 
             url = url + thumbFileName;
+#if (!DEBUG)
+            url = url.Replace("http", "https");
+#endif
             return url;
         }
 

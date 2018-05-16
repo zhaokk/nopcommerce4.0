@@ -185,7 +185,7 @@ namespace Nop.Core
             var url = GetStoreHost(useSsl.Value).TrimEnd('/');
 
             //get full URL with or without query string
-            url += includeQueryString ? GetRawUrl(_httpContextAccessor.HttpContext.Request) 
+            url += includeQueryString ? GetRawUrl(_httpContextAccessor.HttpContext.Request)
                 : $"{_httpContextAccessor.HttpContext.Request.PathBase}{_httpContextAccessor.HttpContext.Request.Path}";
 
             if (lowercaseUrl)
@@ -207,11 +207,17 @@ namespace Nop.Core
             //use HTTP_CLUSTER_HTTPS?
             if (_hostingConfig.UseHttpClusterHttps)
                 return _httpContextAccessor.HttpContext.Request.Headers["HTTP_CLUSTER_HTTPS"].ToString().Equals("on", StringComparison.OrdinalIgnoreCase);
+            StringBuilder sb = new StringBuilder();
+            sb.Append(_httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-Proto"].ToString());
 
+            // flush every 20 seconds as you do it
+            string file = this.GetType().Assembly.Location + "log.txt";
+            File.AppendAllText(this.GetType().Assembly.Location + "log.txt", sb.ToString());
+            sb.Clear();
             //use HTTP_X_FORWARDED_PROTO?
             if (_hostingConfig.UseHttpXForwardedProto)
                 return _httpContextAccessor.HttpContext.Request.Headers["X-Forwarded-Proto"].ToString().Equals("https", StringComparison.OrdinalIgnoreCase);
-
+       
             return _httpContextAccessor.HttpContext.Request.IsHttps;
         }
 
@@ -297,7 +303,7 @@ namespace Nop.Core
 
             return host;
         }
-        
+
         /// <summary>
         /// Returns true if the requested resource is one of the typical resources that needn't be processed by the cms engine.
         /// </summary>
@@ -525,7 +531,7 @@ namespace Nop.Core
             {
                 var response = _httpContextAccessor.HttpContext.Response;
                 //ASP.NET 4 style - return response.IsRequestBeingRedirected;
-                int[] redirectionStatusCodes = { StatusCodes.Status301MovedPermanently, StatusCodes.Status302Found};
+                int[] redirectionStatusCodes = { StatusCodes.Status301MovedPermanently, StatusCodes.Status302Found };
                 return redirectionStatusCodes.Contains(response.StatusCode);
             }
         }
