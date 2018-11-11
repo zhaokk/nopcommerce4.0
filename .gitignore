@@ -12,7 +12,7 @@
 
 # Build results
 
-Presentation/Nop.Web/Plugins/
+
 .vs/
 [Dd]ebug/
 [Rr]elease/
@@ -181,3 +181,5 @@ src/Presentation/Nop.Web/wwwroot/images/uploaded/*
 src/Presentation/Nop.Web/wwwroot/files/exportimport/*
 !src/Presentation/Nop.Web/wwwroot/files/exportimport/Index.htm
 src/packages/*
+Presentation/Nop.Web/wwwroot/
+Presentation/Nop.Web/Plugins/
