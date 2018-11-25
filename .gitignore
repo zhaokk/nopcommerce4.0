@@ -183,3 +183,4 @@ src/Presentation/Nop.Web/wwwroot/files/exportimport/*
 src/packages/*
 Presentation/Nop.Web/wwwroot/
 Presentation/Nop.Web/Plugins/
+Presentation/Nop.Web/App_Data/dataSettings.json

@@ -1,5 +1,0 @@
-{
-  "DataProvider": "sqlserver",
-  "DataConnectionString": "Data Source=nopcommerce.cgogknkidf3g.ap-southeast-2.rds.amazonaws.com;Initial Catalog=localTest;Integrated Security=False;Persist Security Info=False;User ID=uniphone;Password=uniphone888",
-  "RawDataSettings": {}
-}
